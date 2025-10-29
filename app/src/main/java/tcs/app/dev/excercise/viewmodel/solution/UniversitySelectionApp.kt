@@ -1,11 +1,18 @@
-package tcs.app.dev.excercise.viewmodel
+package tcs.app.dev.excercise.viewmodel.solution
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import tcs.app.dev.R
-import tcs.app.dev.excercise.viewmodel.data.Option
+import tcs.app.dev.excercise.viewmodel.DetailsScreen
+import tcs.app.dev.excercise.viewmodel.LoadingBitmapImage
+import tcs.app.dev.excercise.viewmodel.SelectionScreen
+
 
 /**
  * # University selection app with ViewModel
@@ -41,32 +48,37 @@ import tcs.app.dev.excercise.viewmodel.data.Option
  */
 @Composable
 fun UniversitySelectionApp(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SelectionViewModel = viewModel()
 ) {
-    // TODO: Replace by ViewModel State
-    var selection: Option? = null
-    var options: List<Option> = listOf()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    when (val selection = selection) {
+    LaunchedEffect(Unit) {
+        viewModel.loadOptions()
+    }
+
+    when (val selection = state.selection) {
         null -> {
             SelectionScreen(
                 title = stringResource(R.string.university_selection),
-                options = options,
+                options = state.options,
                 modifier = modifier
-            ) { selected ->
-                // TODO: Register selection
-            }
+            ) { selected -> viewModel.select(selected) }
         }
 
         else -> {
             BackHandler {
-                // TODO: Remove selection
+                viewModel.select(null)
             }
             DetailsScreen(
                 title = selection.title,
                 description = selection.description,
                 image = { modifier ->
-                    // TODO: Show image of selection
+                    LoadingBitmapImage(
+                        bitmap = state.selectionImage,
+                        contentDescription = null,
+                        modifier = modifier
+                    )
                 },
                 modifier = modifier
             )
