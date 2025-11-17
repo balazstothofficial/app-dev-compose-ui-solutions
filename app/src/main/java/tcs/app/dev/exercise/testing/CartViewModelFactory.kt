@@ -1,0 +1,35 @@
+package tcs.app.dev.exercise.testing
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import tcs.app.dev.exercise.testing.data.Cart
+import tcs.app.dev.exercise.testing.data.MockData
+import tcs.app.dev.exercise.testing.data.cartDataStore
+
+/**
+ * Provides a `CartViewModel` instance for composables.
+ *
+ * ## What happens here:
+ * - We obtain a `DataStore<Cart>` from the application `Context` via the `cartDataStore` extension.
+ * - We build a `ViewModel` using `viewModelFactory { initializer { … } }`, which lets us pass
+ *   constructor parameters (the `DataStore<Cart>`) to `ShopViewModel`.
+ * - We return the instance via `viewModel(...)`, so Compose can remember/scope it to the current
+ *   NavBackStack/Composition.
+ *
+ * ## Resources
+ * - [ViewModelFactory](https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-factories)
+ * - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+ * - [Android context](https://developer.android.com/reference/android/content/Context)
+ */
+@Composable
+fun cartViewModel(
+    cartDataStore: DataStore<Cart> = LocalContext.current.applicationContext.cartDataStore
+): CartViewModel = viewModel(
+    factory = viewModelFactory {
+        initializer { CartViewModel(cartDataStore, MockData.ExampleCart) }
+    }
+)

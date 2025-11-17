@@ -43,4 +43,5 @@
     <string name="name_spaghetti">Spaghetti</string>
     <string name="name_table">Table</string>
     <string name="name_tomato">Tomato</string>
+    <string name="total_amount">Total amount: %1$s</string>
 </resources>

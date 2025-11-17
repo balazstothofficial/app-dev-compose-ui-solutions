@@ -1,8 +1,14 @@
 package tcs.app.dev.homework1
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-
+import tcs.app.dev.homework1.data.Cart
+import tcs.app.dev.homework1.data.Discount
+import tcs.app.dev.homework1.data.Shop
 
 /**
  * # Homework 3 — Shop App
@@ -88,10 +94,10 @@ import androidx.compose.ui.Modifier
  */
 @Composable
 fun ShopScreen(
-    /*shop: Shop,
-    availableDiscounts: List<Discount>,*/
+    shop: Shop,
+    availableDiscounts: List<Discount>,
     modifier: Modifier = Modifier
 ) {
-
+    var cart by rememberSaveable { mutableStateOf(Cart(shop = shop)) }
 
 }
