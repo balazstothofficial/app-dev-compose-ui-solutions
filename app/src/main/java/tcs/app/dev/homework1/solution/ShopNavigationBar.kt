@@ -1,0 +1,62 @@
+package tcs.app.dev.homework1.solution
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.LocalOffer
+import androidx.compose.material.icons.outlined.Storefront
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import tcs.app.dev.R
+import tcs.app.dev.homework1.solution.ShopPage.Discounts
+import tcs.app.dev.homework1.solution.ShopPage.Shop
+import tcs.app.dev.ui.theme.AppTheme
+
+@Composable
+fun ShopNavigationBar(
+    page: ShopPage,
+    modifier: Modifier = Modifier,
+    onPageChange: (ShopPage) -> Unit = {}
+) {
+    NavigationBar(modifier = modifier) {
+        NavigationBarItem(
+            selected = page == Shop,
+            onClick = { onPageChange(Shop) },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.Storefront,
+                    contentDescription = null
+                )
+            },
+            label = {
+                Text(stringResource(R.string.label_shop))
+            }
+        )
+
+        NavigationBarItem(
+            selected = page == Discounts,
+            onClick = { onPageChange(Discounts) },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.LocalOffer,
+                    contentDescription = null
+                )
+            },
+            label = {
+                Text(stringResource(R.string.label_discounts))
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ShopNavigationBarPreview() {
+    AppTheme {
+        ShopNavigationBar(page = Shop)
+    }
+}
